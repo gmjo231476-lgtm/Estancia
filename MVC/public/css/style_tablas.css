@@ -1,0 +1,102 @@
+/* ==============================
+   ESTILOS PERSONALIZADOS PARA TABLAS BOOTSTRAP
+   ============================== */
+
+/* ---- Estructura general ---- */
+body {
+    background-color: #f8f9fa; /* fondo claro tipo Bootstrap */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+/* ---- Contenedor principal ---- */
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    padding: 2rem 1rem;
+}
+
+/* ---- Tabla responsiva ---- */
+.table-responsive {
+    width: 100%;
+    max-width: 1200px; /* ancho máximo para pantallas grandes */
+    overflow-x: auto;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 0.75rem;
+    background: #fff;
+
+}
+
+/* ---- Tabla ---- */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 0;
+    text-align: center;
+}
+
+/* ---- Cabecera ---- */
+.table thead th {
+    background-color: #0d6efd; /* azul Bootstrap */
+    color: white;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+}
+
+/* ---- Celdas ---- */
+.table td, .table th {
+    vertical-align: middle;
+    padding: 0.75rem;
+}
+
+/* ---- Filas alternadas ---- */
+.table-striped-columns > :not(caption) > tr:nth-child(odd) > * {
+    background-color: #f2f6ff;
+}
+
+/* ---- Botones dentro de la tabla ---- */
+.table button, 
+.table a.btn {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.85rem;
+    border-radius: 0.4rem;
+}
+
+/* ---- Responsive total ---- */
+@media (max-width: 768px) {
+    .table thead {
+        display: none;
+    }
+
+    .table, .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 1rem;
+        border: 100px solid #dee2e6;
+        border-radius: 0.5rem;
+        padding: 0.75rem;
+        background: #fff;
+    }
+
+    .table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .table td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 1rem;
+        width: 45%;
+        text-align: left;
+        font-weight: 600;
+        color: #0d6efd;
+    }
+}

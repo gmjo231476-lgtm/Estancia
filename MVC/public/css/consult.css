@@ -1,0 +1,7 @@
+
+body {
+    background-color: rgba(106, 13, 255, 0.10); /* MORADO EN TODA LA PANTALLA */
+    min-height: 100vh; 
+    margin: 0;
+    padding: 0;
+}

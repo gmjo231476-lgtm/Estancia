@@ -1,0 +1,9 @@
+<svg width="1200" height="700" xmlns="http://www.w3.org/2000/svg">
+  <!-- Columna izquierda -->
+  <rect x="0" y="0" width="140" height="230" fill="#FFC90A"/>
+  <rect x="0" y="230" width="140" height="230" fill="#ED1C24"/>
+  <rect x="0" y="460" width="140" height="240" fill="#FFC90A"/>
+
+  <!-- Barra horizontal -->
+  <rect x="140" y="85" width="1000" height="50" fill="#7F3F98"/>
+</svg>
