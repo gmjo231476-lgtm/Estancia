@@ -1,6 +1,6 @@
 <?php
 
-    //Crear una clase dek modelo
+    //Crear una clase del modelo
     class UserModel{
         private $connection;
 
@@ -15,10 +15,11 @@
             $sql_statement = "INSERT INTO alumno (nombre, apellidoP, apellidoM, usuario,
             correo, pass, genero) VALUES (?,?,?,?,?,?,?)";
 
-            // Preparar el statement
+            // Preparar el statement. se enlazan los parametros con los valores recibidos
             $statement = $this -> connection -> prepare($sql_statement);
             $statement -> bind_param("sssssss",$nombre, $apellidoP, $apellidoM, $usuario, $correo, $pass, $genero);
-
+            
+            //Se ejecuta la consulta y se devuelve el resultado
             return $statement -> execute();
 
         }

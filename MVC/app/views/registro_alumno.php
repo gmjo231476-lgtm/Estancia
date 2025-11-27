@@ -9,9 +9,10 @@
 </head>
 <body>
     <div class="wrapper">
+        <!-- El formulario que enviará los datos usando el método POST -->
         <form action="" method="POST">
             <h1>REGISTRO DE ALUMNO</h1>
-
+            <!-- Campo que copturara los datos del alumno y valida que esten completos-->
             <div class="input-box">
                 <input type="text" name="nombre" placeholder="Nombre" required>
             </div>
@@ -45,6 +46,7 @@
                 </select>
             </div>
             <br><br>
+            <!-- Botón que envia el formulario -->
             <button type="submit" name="enviar" envule="Enviar" class="btn">REGISTRAR</button>
         </form>
             <?php if(isset($restore)){ ?>

@@ -4,18 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link rel="stylesheet" href="../../css/style_tabla.css">
     <link rel="stylesheet" href="/inicio_sesion/MVC/public/css/consult.css?v=<?php echo time();  ?>">
     <title>Listas</title>
 </head>
 <body>
     <center><h1>CONSULTA</h1></center>
     
-    <div class="container mt-4">
+    <div class="container mt-4"> <!-- Contiene el diseño de Bustrap -->
         <div class="table-responsive">
             <table class="table table-striped-columns table-bordered align-middle">
-                <thead>
-                    <th>ID</th>
+                <thead> <!-- Encabezado de la tabla -->
+                    <th>ID</th> 
                     <th>NOMBRE</th>
                     <th>APELLIDO PARTERNO</th>
                     <th>APELLIDO MATERNO</th>
@@ -24,11 +23,11 @@
                     <th>GENERO</th>
                     <th>ACCIONES</th>
                 </thead>
-                <tbody>
-                    <?php
-                        while($row = $usuarios -> fetch_assoc()){
-                    ?>
-                    <tr>
+                <tbody>     
+                    <?php // Mientras existan registro en la consulta usuarios
+                        while($row = $usuarios -> fetch_assoc()){ 
+                    ?> 
+                    <tr> <!-- Se muestran los datos del alumno fils por fila -->
                         <td><?php echo $row['idAlumno']; ?></td>
                         <td><?php echo $row['nombre']; ?></td>
                         <td><?php echo $row['apellidoP']; ?></td>

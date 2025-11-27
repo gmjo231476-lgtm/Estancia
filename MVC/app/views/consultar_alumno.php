@@ -34,9 +34,6 @@
             <button type="button" class="btn active" data-bs-toggle="button" aria-pressed="true">Editar</button>
         </a>
         <br><br>
-        <a href="javascript:history.back()"> 
-            <button class="btn active" data-bs-toggle="button" aria-pressed="true">Regresar</button>
-        </a>
     </form>
 </div>
 </body>

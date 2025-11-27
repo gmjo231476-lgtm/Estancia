@@ -93,11 +93,11 @@
             $plot -> SetPlotType('pie'); // Grafica de pastel
             $plot -> SetDataType('text-data-single');
 
-            $plot -> SetTitle('Porcentaje de productos por marca');
+            $plot -> SetTitle('Porcentaje de genero');
 
             $plot -> SetLegend(array_column($data,0));
 
-            $filename = 'public/media/graphs/grafica_pastel.png';
+            $filename = 'public/media/graphs/grafica_pastel.png'; // genera una imagen.png
 
             $plot -> SetOutputFile($filename);
             $plot -> SetIsInline(true);
@@ -108,7 +108,7 @@
             $pdf -> AddPage();
 
             $pdf -> SetFont('Arial', 'B', 16);
-            $pdf -> Cell(0, 10, 'Reporte de marcas', 0, 1, 'C');
+            $pdf -> Cell(0, 10, 'Reporte de Género Inscrito', 0, 1, 'C');
             $pdf -> Image($filename, 30, 40, 150, 100);
             $pdf -> Ln(100);
 

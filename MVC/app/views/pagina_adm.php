@@ -74,13 +74,13 @@
         </li>
 
         <li class="nav-item me-5">
-          <a class="nav-link" href="/inicio_sesion/MVC/index.php?action=perfil_prof">
+          <a class="nav-link" href="/inicio_sesion/MVC/index.php?action=perfil_adm">
             <button type="button" class="btn btn-light">Consultar perfil</button>
           </a>
         </li>
 
         <li class="nav-item ms-auto">
-          <a class="nav-link" href="/inicio_sesion/MVC/index.php?action=perfil_adm">
+          <a class="nav-link" href="/inicio_sesion/MVC/index.php?action=cerrar_sesion">
             <button type="button" class="btn btn-danger me-md-2">Cerrar sesión</button>
           </a>
         </li>

@@ -30,11 +30,9 @@ class UserModel_mate {
                 (titulo, descripcion, fechaPublicacion, materia, cuatrimestre, tipo, archivo, estado, idCategoria) 
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-        $statement = $this->connection->prepare($sql);
-        $statement->bind_param("ssssssssi", 
-            $titulo, $descripcion, $fechaPublicacion, $materia,
-            $cuatrimestre, $tipo, $archivo, $estado, $idCategoria
-        );
+            $statement = $this->connection->prepare($sql);
+            $statement->bind_param("ssssssssi", $titulo, $descripcion, $fechaPublicacion, $materia,
+            $cuatrimestre, $tipo, $archivo, $estado, $idCategoria);
 
         return $statement->execute();
     }
@@ -61,9 +59,11 @@ class UserModel_mate {
     // Consultar un material por ID
     public function consultarPorID($id_browser) {
         $sql = "SELECT * FROM material WHERE idMaterial = ?";
+
         $statement = $this->connection->prepare($sql);
         $statement->bind_param("i", $id_browser);
         $statement->execute();
+
         $result = $statement->get_result();
         return $result->fetch_assoc();
     }
@@ -77,11 +77,14 @@ class UserModel_mate {
     // Actualizar material
     public function actualizarMate($idMaterial, $titulo, $descripcion, $fechaPublicacion, $materia,
                                    $cuatrimestre, $tipo, $archivo, $estado, $idCategoria) {
+
         $sql = "UPDATE material SET titulo=?, descripcion=?, fechaPublicacion=?, materia=?, cuatrimestre=?, 
-                    tipo=?, archivo=?, estado=?, idCategoria=? WHERE idMaterial=?";
+        tipo=?, archivo=?, estado=?, idCategoria=? WHERE idMaterial=?";
+
         $statement = $this->connection->prepare($sql);
-        $statement->bind_param("ssssssssii",$titulo,$descripcion,$fechaPublicacion,$materia,
-            $cuatrimestre,$tipo,$archivo,$estado,$idCategoria,$idMaterial);
+        $statement->bind_param("ssssssssii",$titulo,$descripcion,$fechaPublicacion,$materia, 
+        $cuatrimestre,$tipo,$archivo,$estado,$idCategoria,$idMaterial);
+
         return $statement->execute();
     }
 
@@ -109,6 +112,7 @@ class UserModel_mate {
         $sql = "UPDATE material SET estado = 'aprobado' WHERE idMaterial = ?";
         $statement = $this->connection->prepare($sql);
         $statement->bind_param("i", $idMaterial);
+
         return $statement->execute();
     }
 
@@ -117,6 +121,7 @@ class UserModel_mate {
         $sql = "UPDATE material SET estado = 'rechazado' WHERE idMaterial = ?";
         $statement = $this->connection->prepare($sql);
         $statement->bind_param("i", $idMaterial);
+
         return $statement->execute();
     }
 
@@ -138,7 +143,9 @@ class UserModel_mate {
     
     public function filtrarMateriales($where) {
         $sql = "SELECT * FROM material " . $where;
+
         $result = $this->connection->query($sql);
+        
         return $result;
     }
 

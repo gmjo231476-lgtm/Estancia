@@ -46,12 +46,15 @@
 
         public function obtenerCategorias() {
             $sql_statement = "SELECT idCategoria, nombreCategoria FROM Categoria";
+            
             return $this->connection->query($sql_statement);
         }
 
         public function contarCategorias() {
             $sql_statement = "SELECT COUNT(*) AS total FROM Categoria";
+
             $result = $this->connection->query($sql_statement);
+            
             $row = $result->fetch_assoc();
             return $row['total'];
         }

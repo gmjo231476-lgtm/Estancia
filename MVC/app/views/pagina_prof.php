@@ -11,7 +11,7 @@
 <body>
   <nav class="navbar navbar-expand-lg bg-purple" style="background-color:#6f42c1;">
   <div class="container-fluid">
-    <a class="navbar-brand text-white fw-bold" href="#">UPEMOR</a>
+    <a class="navbar-brand text-white fw-bold" >UPEMOR</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDarkDropdown" aria-controls="navbarNavDarkDropdown" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -44,6 +44,12 @@
         <li class="nav-item me-5">
           <a class="nav-link" href="/inicio_sesion/MVC/index.php?action=perfil_prof">
             <button type="button" class="btn btn-light">Consultar perfil</button>
+          </a>
+        </li>
+
+        <li class="nav-item me-5">
+          <a class="nav-link" href="/inicio_sesion/MVC/app/views/Generar_reportes.php">
+            <button type="button" class="btn btn-light">Reportes</button>
           </a>
         </li>
         

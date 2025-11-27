@@ -29,6 +29,12 @@
                 // Llamar al método del modelo
                 $insert = $this -> model -> insertarProfesor($nombre, $apellidoP, $apellidoM, 
                 $usuario, $numeroEmpleado, $especialidad, $correo, $pass);
+
+                if ($insert) {
+                    echo "<script>alert('Se ha registrado el profesor correctamente');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=insert_prof';</script>";
+                    exit;
+                } 
             }
             //Incluir la vista
             include_once "app/views/registro_profesor.php";
@@ -46,6 +52,7 @@
             if(isset($_GET['id']) && is_numeric($_GET['id'])){
                 $id_browser = (int) $_GET['id'];
                 $row = $this -> model -> consultarPorID($id_browser);
+                
                 include_once "app/views/editar_profesor.php";
                 return;
             }
@@ -60,11 +67,15 @@
 
                 $update = $this -> model -> actualizarProfesor($idProfesor, $nombre, $apellidoP, $apellidoM,
                 $usuario, $especialidad);
-                // cambiar
+                
                 if($update){
-                    header('Location: index.php?action=consult_prof');
+                    echo "<script>alert('Los datos se registraron correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=consult_prof';</script>";
+                        exit;
                 }else{
-                    header('Location: index.php?action=update_prof');
+                    echo "<script>alert('No se pudo actualizar los datos correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=update_prof';</script>";
+                        exit;
                 }
             }
             include_once "app/views/editar_profesor.php";
@@ -100,11 +111,15 @@
                 
                 $update = $this -> model -> actualizarProf($id, $nombre, $apellidoP, $apellidoM,
                 $pass);
-                // cambiar
+                
                 if($update){
-                    header('Location: index.php?action=perfil_prof');
+                    echo "<script>alert('El perfil se ha actualizado correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=perfil_prof';</script>";
+                        exit;
                 }else{
-                    header('Location: index.php?action=editarPerfil_prof');
+                    echo "<script>alert('No se puede modificar los datos.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=editarPerfil_prof';</script>";
+                        exit;
                 }
             }
             include_once "app/views/editar_perfil_prof.php";
@@ -116,11 +131,15 @@
                 $id_browser = (int) $_GET['id'];
 
                 $delete = $this -> model -> eliminarProfesor($id_browser);
-                // cambiar
+                
                 if($delete){
-                    header('Location: index.php?action=consult_prof');
+                    echo "<script>alert('Eliminación exitosa.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=consult_prof';</script>";
+                        exit;
                 }else{
-                    header('Location: index.php?action=delete_prof');
+                    echo "<script>alert('No se pudo eliminar al profesor.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=delete_prof';</script>";
+                        exit;
                 }
             }
         }

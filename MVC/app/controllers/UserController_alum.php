@@ -31,14 +31,22 @@
                 // Llamar al metodo del modelo
                 $insert = $this -> model -> insertarUsuario($nombre, $apellidoP, $apellidoM, $usuario
                 , $correo, $pass, $genero);
+
+                if ($insert) {
+                        // Lanza una alerta que avisa al usuario que su registro fue exitoso
+                        echo "<script>alert('Registro exitoso.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=insert';</script>";
+                        exit;
+                    } 
             }
             //Incluir la vista
             include_once "app/views/registro_alumno.php";
         }
 
         public function consultarUsuarios(){
+            // llama al metodo del modelo y optiene los regitros de BD
             $usuarios = $this -> model -> consultarUsuarios();
-
+            // Se encarga de mostrar los datos optenidos en la pantalla
             include "app/views/consulta_alumno.php";
 
         }
@@ -63,9 +71,13 @@
                 $usuario, $pass);
 
                 if($update){
-                    header('Location: index.php?action=consult');
+                    echo "<script>alert('Los datos se registraron correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=consult';</script>";
+                    exit;
                 }else{
-                    header('Location: index.php?action=update');
+                    echo "<script>alert('No se pudo actualizar los datos correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=update';</script>";
+                    exit;
                 }
             }
             include_once "app/views/editar_alumno.php";
@@ -84,6 +96,7 @@
             if(isset($_GET['id']) && is_numeric($_GET['id'])){
                 $id_browser = (int) $_GET['id'];
                 $row = $this -> model -> consultarPorID($id_browser);
+
                 include_once "app/views/editar_perfilA.php";
                 return;
             }
@@ -99,9 +112,13 @@
                 $apellidoM, $usuario, $pass);
 
                 if($update){
-                    header('Location: index.php?action=perfil');
+                    echo "<script>alert('El perfil se ha actualizado correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=perfil';</script>";
+                    exit;
                 }else{
-                    header('Location: index.php?action=editarPerfil');
+                    echo "<script>alert('No se puede modificar los datos.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=editarPerfil';</script>";
+                    exit;
                 }
             }
             include_once "app/views/editar_perfilA.php";
@@ -114,13 +131,17 @@
                 $delete = $this -> model -> eliminarUsuario($id_browser);
                 
                 if($delete){
-                    header('Location: index.php?action=consult');
+                    echo "<script>alert('Eliminación exitosa.');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=consult';</script>";
+                    exit;
                 }else{
-                    header('Location: index.php?action=delate');
+                    echo "<script>alert('No se pudo eliminar al alumno.');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=delete';</script>";
+                    exit; 
                 }
             }
         }
-
+        
         public function perfilUsuario(){
             session_start();
             // Se puede quitar este if solo es para validar si inicio sesion

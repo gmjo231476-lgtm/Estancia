@@ -1,57 +1,60 @@
 <?php
-require_once "./app/models/LoginModel.php";
+    require_once "./app/models/LoginModel.php";
 
-class LoginController {
+    class LoginController {
 
-    private $connection;
+        private $connection;
 
-    public function __construct($connection) {
-        $this->connection = $connection;
-    }
-
-    public function index() {
-        include "app/views/inicio_sesion.php";
-    }
-
-    public function validar() {
-        $usuario = $_POST["usuario"];
-        $pass = $_POST["pass"];
-
-        $model = new LoginModel($this->connection);
-        $data = $model->verificarUsuario($usuario);
-
-        if (!$data) {
-            echo "Usuario no encontrado";
-            exit();
+        public function __construct($connection) {
+            $this->connection = $connection;
         }
 
-        if (password_verify($pass, $data["pass"])) {
+        public function index() {
+            include "app/views/inicio_sesion.php";
+        }
+        
+        // Obtiene el usuario y contraseña desde $_POST
+        // Consulta en la base de datos si el usuario existe
+        // Verifica si su contraseña es correcta y si lo es inicia sesión
+        // Si la contraseña es incorrecta, muestra un mensaje de error
+        public function validar() {
+            $usuario = $_POST["usuario"];
+            $pass = $_POST["pass"];
 
-            session_start();
-            $_SESSION["usuario"] = $data["usuario"];
-            $_SESSION["rol"] = $data["rol"];
-            $_SESSION["id"] = $data["id"];
+            $model = new LoginModel($this->connection);
+            $data = $model->verificarUsuario($usuario);
 
-            switch ($data["rol"]) {
-
-                case "alumno":
-                    header("Location: index.php?action=pagina_inicio_alum");
-                    break;
-
-                case "profesor":
-                    header("Location: index.php?action=pagina_prof");
-                    break;
-
-                case "administrador":
-                    header("Location: index.php?action=pagina_adm");
-                    break;
+            if (!$data) {
+                echo "Usuario no encontrado";
+                exit();
             }
-            exit();
-            
-        } else {
-            echo "Contraseña incorrecta";
+
+            if (password_verify($pass, $data["pass"])) {
+
+                session_start();
+                $_SESSION["usuario"] = $data["usuario"];
+                $_SESSION["rol"] = $data["rol"];
+                $_SESSION["id"] = $data["id"];
+
+                switch ($data["rol"]) {
+
+                    case "alumno":
+                        header("Location: index.php?action=pagina_inicio_alum");
+                        break;
+
+                    case "profesor":
+                        header("Location: index.php?action=pagina_prof");
+                        break;
+
+                    case "administrador":
+                        header("Location: index.php?action=pagina_adm");
+                        break;
+                }
+                exit();
+                
+            } else {
+                echo "Contraseña incorrecta";
+            }
         }
+
     }
-
-
-}

@@ -21,10 +21,6 @@
             </div>
 
             <button type="submit" class="btn">Iniciar sesión</button>
-
-            <div class="register-link">
-                <p>¿No tienes una cuenta? <a href="/inicio_sesion/MVC/">Registrarse</a></p>
-            </div>
         </form>
     </div>
 </body>

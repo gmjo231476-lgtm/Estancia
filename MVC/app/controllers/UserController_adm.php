@@ -25,6 +25,12 @@ include_once 'config/db_connection.php';
                 // Llamar al método del modelo
                 $insert = $this->model->insertarAdministrador($nombre, $apellidoP, 
                 $apellidoM, $usuario, $correo, $pass);
+
+                if ($insert) {
+                    echo "<script>alert('Se ha registrado al administrador correctamente.');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=insert_adm';</script>";
+                    exit;
+                } 
             }
             //Incluir la vista
             include_once "app/views/registro_admi.php";
@@ -60,9 +66,13 @@ include_once 'config/db_connection.php';
                 $usuario, $pass);
 
                 if($update){
-                    header('Location: index.php?action=consult_adm');
+                    echo "<script>alert('Los datos se registraron correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=consult_adm';</script>";
+                    exit;
                 }else{
-                    header('Location: index.php?action=update_adm');
+                    echo "<script>alert('No se pudo actualizar los datos correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=update_adm';</script>";
+                    exit;
                 }
             }
             include_once "app/views/editar_admin.php";
@@ -99,9 +109,13 @@ include_once 'config/db_connection.php';
                 $usuario, $pass);
 
                 if($update){
-                    header('Location: index.php?action=perfil_adm');
+                    echo "<script>alert('El perfil se ha actualizado correctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=perfil_adm';</script>";
+                    exit;
                 }else{
-                    header('Location: index.php?action=editarPerfil_adm');
+                    echo "<script>alert('No se puede modificar los datos.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=editarPerfil_adm';</script>";
+                    exit;
                 }
             }
             include_once "app/views/editar_perfil_adm.php";
@@ -114,9 +128,13 @@ include_once 'config/db_connection.php';
                 $delete = $this -> model -> eliminarAdministrador($id_browser);
                 
                 if($delete){
-                    header('Location: index.php?action=consult_adm');
+                    echo "<script>alert('Eliminación exitosa.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=consult_adm';</script>";
+                    exit;
                 }else{
-                    header('Location: index.php?action=delate_adm');
+                    echo "<script>alert('No se pudo eliminar al administrador.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=delete_adm';</script>";
+                    exit;
                 }
             }
         }

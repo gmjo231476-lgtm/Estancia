@@ -41,6 +41,7 @@
         </div>
 
         <button type="submit" name="editar"  class="btn active" data-bs-toggle="button" aria-pressed="true">Editar</button>
+        <br><br>
         <a class="nav-link" href="/inicio_sesion/MVC/app/views/pagina_inicio_alum.php">
             <button type="button" class="btn btn-light">Regresar</button>
         </a>

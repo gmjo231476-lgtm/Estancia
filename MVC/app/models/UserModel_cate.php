@@ -12,6 +12,7 @@ class UserModel_cate {
         $sql = "INSERT INTO categoria (nombreCategoria, descripcion) VALUES (?, ?)";
         $statement = $this->connection->prepare($sql);
         $statement->bind_param("ss", $nombreCategoria, $descripcion);
+        
         return $statement->execute();
     }
 

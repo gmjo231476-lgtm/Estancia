@@ -25,10 +25,6 @@
             <button type="submit" name="editar"  class="btn active" data-bs-toggle="button" aria-pressed="true">Editar</button>
             
         </form>
-            <a href="index.php?action=consult_cate">
-                <button>Lista</button>
-            </a>
-            <br>
     </div>
 </body>
 </html>

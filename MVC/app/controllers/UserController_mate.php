@@ -26,27 +26,29 @@ class UserController_mate {
 
             // Validar archivo
             if (isset($_FILES['archivo']) && $_FILES['archivo']['error'] == UPLOAD_ERR_OK) {
+
+                $maxsize = 2 * 1024 * 1024; // 2 MB en bytes
+                if ($_FILES['archivo']['size'] > $maxsize || $_FILES['archivo']['size'] == 0) {
+                    echo "<script>alert('El archivo es demasiado grande. Debe ser menor a 2 MB.');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=insert_mate';</script>";
+                    exit;
+                }
+
                 $nombreArchivo = basename($_FILES['archivo']['name']);
                 $rutaDestino = "uploads/" . $nombreArchivo;
                 $rutaCompleta = __DIR__ . "/../../" . $rutaDestino;
 
+
                 // Mover archivo a la carpeta uploads
                 if (move_uploaded_file($_FILES['archivo']['tmp_name'], $rutaCompleta)) {
                     // Insertar registro con la ruta
-                    $insert = $this->model->insertarMaterial(
-                        $titulo,
-                        $descripcion,
-                        $fechaPublicacion,
-                        $materia,
-                        $cuatrimestre,
-                        $tipo,
-                        $rutaDestino,
-                        $estado,
-                        $idCategoria
+                    $insert = $this->model->insertarMaterial($titulo, $descripcion, $fechaPublicacion,
+                        $materia, $cuatrimestre, $tipo, $rutaDestino, $estado, $idCategoria
                     );
 
                     if ($insert) {
-                        header('Location: index.php?action=insert_mate');
+                        echo "<script>alert('Se ha registrado el material correcctamente.');
+                        window.location.href = '/inicio_sesion/MVC/index.php?action=insert_mate';</script>";
                         exit;
                     } else {
                         echo "Error al guardar el material en la base de datos.";
@@ -64,12 +66,16 @@ class UserController_mate {
 
     // Consultar materiales
     public function consultarMate() {
+
         $materiales = $this->model->consultarMate();
+
         include "app/views/consulta_mate.php";
     }
 
     public function consultarMate_alum() {
+
         $materiales = $this->model->consultarMate_alum();
+
         include "app/views/ver_material_aprobado.php";
     }
 
@@ -78,11 +84,13 @@ class UserController_mate {
         if (isset($_GET['id']) && is_numeric($_GET['id'])) {
             $id_browser = (int) $_GET['id'];
             $row = $this->model->consultarPorID($id_browser);
+
             include_once "app/views/editar_mate.php";
             return;
         }
 
         if (isset($_POST['editar'])) {
+
             $idMaterial = (int) $_POST['idMaterial'];
             $titulo = $_POST['titulo'];
             $descripcion = $_POST['descripcion'];
@@ -98,8 +106,11 @@ class UserController_mate {
 
             // Si subieron un nuevo archivo
             if (!empty($_FILES['archivo']['name'])) {
+
                 $nombreArchivo = basename($_FILES['archivo']['name']);
+
                 $rutaDestino = "uploads/" . $nombreArchivo;
+
                 $rutaCompleta = __DIR__ . "/../../" . $rutaDestino;
 
                 if (move_uploaded_file($_FILES['archivo']['tmp_name'], $rutaCompleta)) {
@@ -107,25 +118,17 @@ class UserController_mate {
                 }
             }
 
-            $update = $this->model->actualizarMate(
-                $idMaterial,
-                $titulo,
-                $descripcion,
-                $fechaPublicacion,
-                $materia,
-                $cuatrimestre,
-                $tipo,
-                $archivo,
-                $estado,
-                $idCategoria
-            );
+            $update = $this->model->actualizarMate($idMaterial, $titulo, $descripcion, $fechaPublicacion,
+                $materia, $cuatrimestre, $tipo, $archivo, $estado, $idCategoria);
 
-            if ($update) {
-                header('Location: index.php?action=consult_mate');
-                exit;
-            } else {
-                header('Location: index.php?action=update_mate');
-                exit;
+            if($update){
+                    echo "<script>alert('Los datos se registraron correctamente.');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=consult_mate';</script>";
+                    exit;
+            }else{
+                echo "<script>alert('No se pudo actualizar los datos correctamente.');
+                    window.location.href = '/inicio_sesion/MVC/index.php?action=update_mate';</script>";
+                    exit;
             }
         }
 
@@ -134,87 +137,109 @@ class UserController_mate {
 
     public function actualizarMaterialAlum() {
 
-    if (isset($_GET['id']) && is_numeric($_GET['id'])) {
-        $idMaterial = (int) $_GET['id'];
-        $row = $this->model->consultarPorID($idMaterial);
-        include "app/views/editar_mate_alum.php";
-        return;
-    }
+        if (isset($_GET['id']) && is_numeric($_GET['id'])) {
 
-    if (isset($_POST['editar_simple'])) {
+            $idMaterial = (int) $_GET['id'];
 
-        $idMaterial = $_POST['idMaterial'];
-        $titulo = $_POST['titulo'];
-        $descripcion = $_POST['descripcion'];
-        $materia = $_POST['materia'];
-        $cuatrimestre = $_POST['cuatrimestre'];
-        $tipo = $_POST['tipo'];
+            $row = $this->model->consultarPorID($idMaterial);
 
-        // Obtener archivo actual
-        $rowActual = $this->model->consultarPorID($idMaterial);
-        $archivo = $rowActual['archivo'];
+            include "app/views/editar_mate_alum.php";
+            return;
+        }
 
-        // Si suben archivo nuevo
-        if (!empty($_FILES['archivo']['name'])) {
-            $nombreArchivo = basename($_FILES['archivo']['name']);
-            $rutaDestino = "uploads/" . $nombreArchivo;
-            $rutaCompleta = __DIR__ . "/../../" . $rutaDestino;
+        if (isset($_POST['editar_simple'])) {
 
-            if (move_uploaded_file($_FILES['archivo']['tmp_name'], $rutaCompleta)) {
-                $archivo = $rutaDestino;
+            $idMaterial = $_POST['idMaterial'];
+            $titulo = $_POST['titulo'];
+            $descripcion = $_POST['descripcion'];
+            $materia = $_POST['materia'];
+            $cuatrimestre = $_POST['cuatrimestre'];
+            $tipo = $_POST['tipo'];
+
+            // Obtener archivo actual
+            $rowActual = $this->model->consultarPorID($idMaterial);
+            $archivo = $rowActual['archivo'];
+
+            // Si suben archivo nuevo
+            if (!empty($_FILES['archivo']['name'])) {
+
+                $nombreArchivo = basename($_FILES['archivo']['name']);
+
+                $rutaDestino = "uploads/" . $nombreArchivo;
+
+                $rutaCompleta = __DIR__ . "/../../" . $rutaDestino;
+
+                if (move_uploaded_file($_FILES['archivo']['tmp_name'], $rutaCompleta)) {
+                    $archivo = $rutaDestino;
+                }
+
+            }
+
+            $update = $this->model->actualizarMaterialAlum($idMaterial, $titulo, $descripcion, $materia, $cuatrimestre, $tipo, $archivo);
+
+            if ($update) {
+                header('Location: index.php?action=consult_mate_alum');
+                exit;
             }
         }
-
-        $update = $this->model->actualizarMaterialAlum($idMaterial, $titulo, $descripcion, $materia, $cuatrimestre, $tipo, $archivo);
-
-        if ($update) {
-            header('Location: index.php?action=consult_mate_alum');
-            exit;
-        }
     }
-}
 
 
     // Eliminar material
     public function eliminarMate() {
+
         if (isset($_GET['id']) && is_numeric($_GET['id'])) {
+
             $id_browser = (int) $_GET['id'];
+
             $delete = $this->model->eliminarMate($id_browser);
 
-            if ($delete) {
-                header('Location: index.php?action=consult_mate');
+           if($delete){
+                echo "<script>alert('Eliminación exitosa.');
+                window.location.href = '/inicio_sesion/MVC/index.php?action=consult_mate';</script>";
                 exit;
-            } else {
-                header('Location: index.php?action=delete_mate');
-                exit;
+            }else{
+                echo "<script>alert('No se pudo eliminar el material.');
+                window.location.href = '/inicio_sesion/MVC/index.php?action=delete_mate';</script>";
+                exit;     
             }
         }
     }
 
     // APROBAR MATERIAL
     public function aprobar() {
+
         if (isset($_GET['id'])) {
             $this->model->aprobarMaterial($_GET['id']);
         }
-        header("Location: index.php?action=consult_mate");
+
+        echo "<script>alert('El material ha sido aceptado.');
+            window.location.href = '/inicio_sesion/MVC/index.php?action=consult_mate';</script>";
         exit;
     }
 
     // RECHAZAR MATERIAL
     public function rechazar() {
+
         if (isset($_GET['id'])) {
             $this->model->rechazarMaterial($_GET['id']);
         }
-        header("Location: index.php?action=consult_mate");
+
+        echo "<script>alert('El material ha sido rechazado.');
+            window.location.href = '/inicio_sesion/MVC/index.php?action=consult_mate';</script>";
         exit;
     }
 
     public function verMaterialAprobado() {
-    $materiales = $this->model->obtenerMaterialAprobado();
-    include __DIR__ . '/../views/ver_material_aprobado.php';
+
+        $materiales = $this->model->obtenerMaterialAprobado();
+
+        include __DIR__ . '/../views/ver_material_aprobado.php';
+
     }
 
     public function calificarMaterial() {
+
             if (isset($_GET['id'])) {
                 $idMaterial = $_GET['id'];
             }
@@ -235,82 +260,82 @@ class UserController_mate {
         }
 
 
-    public function filtrarMaterial() {
+        public function filtrarMaterial() {
 
-        // Obtener opciones del formulario (tus métodos)
-        $materias     = $this->model->obtenerMaterias();
-        $cuatrimestres = $this->model->obtenerCuatrimestres();
-        $tipos        = $this->model->obtenerTipos();
+            // Obtener opciones del formulario (tus métodos)
+            $materias     = $this->model->obtenerMaterias();
+            $cuatrimestres = $this->model->obtenerCuatrimestres();
+            $tipos        = $this->model->obtenerTipos();
 
-        $where = "";
+            $where = "";
 
-        if (!empty($_POST['materia'])) {
+            if (!empty($_POST['materia'])) {
 
-        $i = 0;
-        $count = count($_POST['materia']);
-        $selected = "";
+            $i = 0;
+            $count = count($_POST['materia']);
+            $selected = "";
 
-        while ($i < $count) {
-            $selected = $selected . "'" . $_POST['materia'][$i] . "'";
-            if ($i < $count - 1) {
-                $selected = $selected . ", ";
+            while ($i < $count) {
+                $selected = $selected . "'" . $_POST['materia'][$i] . "'";
+                if ($i < $count - 1) {
+                    $selected = $selected . ", ";
+                }
+                $i++;
             }
-            $i++;
+
+            $where = " WHERE materia IN (" . $selected . ")";
         }
 
-        $where = " WHERE materia IN (" . $selected . ")";
-    }
+        //FILTRO CUATRIMESTRE (multi-select)
+        if (!empty($_POST['cuatrimestre'])) {
 
-    // -------------------- FILTRO CUATRIMESTRE (multi-select) --------------------
-    if (!empty($_POST['cuatrimestre'])) {
+            $i = 0;
+            $count = count($_POST['cuatrimestre']);
+            $selected = "";
 
-        $i = 0;
-        $count = count($_POST['cuatrimestre']);
-        $selected = "";
-
-        while ($i < $count) {
-            $selected = $selected . "'" . $_POST['cuatrimestre'][$i] . "'";
-            if ($i < $count - 1) {
-                $selected = $selected . ", ";
+            while ($i < $count) {
+                $selected = $selected . "'" . $_POST['cuatrimestre'][$i] . "'";
+                if ($i < $count - 1) {
+                    $selected = $selected . ", ";
+                }
+                $i++;
             }
-            $i++;
-        }
 
-        if ($where == "") {
-            $where = " WHERE cuatrimestre IN (" . $selected . ")";
-        } else {
-            $where .= " AND cuatrimestre IN (" . $selected . ")";
-        }
-    }
-
-    // -------------------- FILTRO TIPO (multi-select) --------------------
-    if (!empty($_POST['tipo'])) {
-
-        $i = 0;
-        $count = count($_POST['tipo']);
-        $selected = "";
-
-        while ($i < $count) {
-            $selected = $selected . "'" . $_POST['tipo'][$i] . "'";
-            if ($i < $count - 1) {
-                $selected = $selected . ", ";
+            if ($where == "") {
+                $where = " WHERE cuatrimestre IN (" . $selected . ")";
+            } else {
+                $where .= " AND cuatrimestre IN (" . $selected . ")";
             }
-            $i++;
         }
 
-        if ($where == "") {
-            $where = " WHERE tipo IN (" . $selected . ")";
-        } else {
-            $where .= " AND tipo IN (" . $selected . ")";
+        //FILTRO TIPO 
+        if (!empty($_POST['tipo'])) {
+
+            $i = 0;
+            $count = count($_POST['tipo']);
+            $selected = "";
+
+            while ($i < $count) {
+                $selected = $selected . "'" . $_POST['tipo'][$i] . "'";
+                if ($i < $count - 1) {
+                    $selected = $selected . ", ";
+                }
+                $i++;
+            }
+
+            if ($where == "") {
+                $where = " WHERE tipo IN (" . $selected . ")";
+            } else {
+                $where .= " AND tipo IN (" . $selected . ")";
+            }
         }
+
+        // Realizar consulta filtrada
+        $materiales = $this->model->filtrarMateriales($where);
+
+        // Mostrar vista
+        include "app/views/filtrar_material.php";
     }
-
-    // Realizar consulta filtrada
-    $materiales = $this->model->filtrarMateriales($where);
-
-    // Mostrar vista
-    include "app/views/filtrar_material.php";
-}
 
 
 }

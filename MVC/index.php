@@ -11,6 +11,7 @@
     include_once "config/db_connection.php";
     include_once "app/controllers/LoginController.php";
 
+    // Se crean instancias de cada controlador, pasándoles la conexión a la base de datos
     $controller = new UserController($connection);
     $controller_prof = new UserController_prof($connection);
     $controller_adm = new UserController_adm($connection);
@@ -20,7 +21,7 @@
     $LoginController = new LoginController($connection);
     $ReportController = new ReportController($connection);
 
-
+    // Se verifica si existe el parámetro 'action' en la URL
     if(isset($_GET['action'])){
         $action = $_GET['action'];
 
@@ -63,6 +64,7 @@
             case 'update':
                 $controller -> actualizarUsuario();
                 break;
+                
             case 'delete':
                 $controller -> eliminarUsuario();
                 break;
